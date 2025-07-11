@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lucro Pirulitos & Moedas</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 12px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 105%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .result {
+      background: #eefbf0;
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #b5e3b8;
+      border-radius: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Calculadora de Lucro</h1>
+
+    <!-- PIRULITOS -->
+    <h2>Pirulitos</h2>
+    <label for="valorPirulito">Valor de venda por pirulito (R$)</label>
+    <input type="number" id="valorPirulito" step="0.01" />
+
+    <label for="qtdPirulito">Quantidade de pirulitos vendidos</label>
+    <input type="number" id="qtdPirulito" />
+
+    <div class="result">
+      <p><strong>Total de venda:</strong> R$ <span id="somaPirulito">0.00</span></p>
+      <p><strong>Lucro líquido:</strong> R$ <span id="lucroPirulito">0.00</span></p>
+    </div>
+
+    <!-- MOEDAS -->
+    <h2>Moedas de Guarma</h2>
+    <label for="valorMoedaCompra1">Valor unitário de compra da moeda (R$)</label>
+    <input type="number" id="valorMoedaCompra1" step="0.01" />
+
+    <label for="quantidadeMoedas">Quantidade de moedas compradas</label>
+    <input type="number" id="quantidadeMoedas" />
+
+    <label for="valorMoedaVenda">Valor de venda total das moedas (R$)</label>
+    <input type="number" id="valorMoedaVenda" step="0.01" />
+
+    <div class="result">
+      <p><strong>Total de compra:</strong> R$ <span id="totalMoedas">0.00</span></p>
+      <p><strong>Taxa de limpeza (13% sobre a venda):</strong> R$ <span id="taxaMoeda">0.00</span></p>
+      <p><strong>Valor após limpeza:</strong> R$ <span id="valorLiquidoVenda">0.00</span></p>
+      <p><strong>Lucro líquido:</strong> R$ <span id="lucroMoeda">0.00</span></p>
+    </div>
+  </div>
+
+  <script>
+    const custoPirulito = 0.47;
+    const taxaLimpeza = 0.13;
+
+    const campos = document.querySelectorAll('input');
+    campos.forEach(input => input.addEventListener('input', calcular));
+
+    function calcular() {
+      // PIRULITOS
+      const valorPiru = parseFloat(document.getElementById("valorPirulito").value) || 0;
+      const qtdPiru = parseInt(document.getElementById("qtdPirulito").value) || 0;
+
+      const vendaTotal = valorPiru * qtdPiru;
+      const custoTotal = custoPirulito * qtdPiru;
+      const lucroPirulito = vendaTotal - custoTotal;
+
+      document.getElementById("somaPirulito").textContent = vendaTotal.toFixed(2);
+      document.getElementById("lucroPirulito").textContent = lucroPirulito.toFixed(2);
+
+      // MOEDAS
+      const precoUnitario = parseFloat(document.getElementById("valorMoedaCompra1").value) || 0;
+      const quantidade = parseInt(document.getElementById("quantidadeMoedas").value) || 0;
+      const venda = parseFloat(document.getElementById("valorMoedaVenda").value) || 0;
+
+      const totalCompra = precoUnitario * quantidade;
+      const taxa = venda * taxaLimpeza;
+      const valorLiquido = venda - taxa;
+      const lucroMoeda = valorLiquido - totalCompra;
+
+      document.getElementById("totalMoedas").textContent = totalCompra.toFixed(2);
+      document.getElementById("taxaMoeda").textContent = taxa.toFixed(2);
+      document.getElementById("valorLiquidoVenda").textContent = valorLiquido.toFixed(2);
+      document.getElementById("lucroMoeda").textContent = lucroMoeda.toFixed(2);
+    }
+  </script>
+</body>
+</html>
