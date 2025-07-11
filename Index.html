@@ -12,7 +12,7 @@
     }
 
     .container {
-      max-width: 700px;
+      max-width: 600px;
       margin: auto;
       background: white;
       padding: 20px;
@@ -32,7 +32,7 @@
     }
 
     input {
-      width: 105%;
+      width: 100%;
       padding: 8px;
       margin-top: 5px;
       border-radius: 6px;
@@ -73,20 +73,19 @@
 
     <!-- MOEDAS -->
     <h2>Moedas de Guarma</h2>
-    <label for="valorMoedaCompra1">Valor unitário de compra da moeda (R$)</label>
-    <input type="number" id="valorMoedaCompra1" step="0.01" />
+    <label for="precoCompra">Valor de compra por moeda (R$)</label>
+    <input type="number" id="precoCompra" step="0.01" />
 
-    <label for="quantidadeMoedas">Quantidade de moedas compradas</label>
+    <label for="precoVenda">Valor de venda por moeda (R$)</label>
+    <input type="number" id="precoVenda" step="0.01" />
+
+    <label for="quantidadeMoedas">Quantidade de moedas</label>
     <input type="number" id="quantidadeMoedas" />
 
-    <label for="valorMoedaVenda">Valor de venda total das moedas (R$)</label>
-    <input type="number" id="valorMoedaVenda" step="0.01" />
-
     <div class="result">
-      <p><strong>Total de compra:</strong> R$ <span id="totalMoedas">0.00</span></p>
-      <p><strong>Taxa de limpeza (13% sobre a venda):</strong> R$ <span id="taxaMoeda">0.00</span></p>
-      <p><strong>Valor após limpeza:</strong> R$ <span id="valorLiquidoVenda">0.00</span></p>
-      <p><strong>Lucro líquido:</strong> R$ <span id="lucroMoeda">0.00</span></p>
+      <p><strong>Valor líquido por moeda (após taxa):</strong> R$ <span id="valorLiquidoPorMoeda">0.00</span></p>
+      <p><strong>Lucro por moeda:</strong> R$ <span id="lucroPorMoeda">0.00</span></p>
+      <p><strong>Lucro total moedas:</strong> R$ <span id="lucroTotalMoeda">0.00</span></p>
     </div>
   </div>
 
@@ -110,19 +109,17 @@
       document.getElementById("lucroPirulito").textContent = lucroPirulito.toFixed(2);
 
       // MOEDAS
-      const precoUnitario = parseFloat(document.getElementById("valorMoedaCompra1").value) || 0;
+      const precoCompra = parseFloat(document.getElementById("precoCompra").value) || 0;
+      const precoVenda = parseFloat(document.getElementById("precoVenda").value) || 0;
       const quantidade = parseInt(document.getElementById("quantidadeMoedas").value) || 0;
-      const venda = parseFloat(document.getElementById("valorMoedaVenda").value) || 0;
 
-      const totalCompra = precoUnitario * quantidade;
-      const taxa = venda * taxaLimpeza;
-      const valorLiquido = venda - taxa;
-      const lucroMoeda = valorLiquido - totalCompra;
+      const valorLiquidoPorMoeda = precoVenda - (precoVenda * taxaLimpeza);
+      const lucroPorMoeda = valorLiquidoPorMoeda - precoCompra;
+      const lucroTotal = lucroPorMoeda * quantidade;
 
-      document.getElementById("totalMoedas").textContent = totalCompra.toFixed(2);
-      document.getElementById("taxaMoeda").textContent = taxa.toFixed(2);
-      document.getElementById("valorLiquidoVenda").textContent = valorLiquido.toFixed(2);
-      document.getElementById("lucroMoeda").textContent = lucroMoeda.toFixed(2);
+      document.getElementById("valorLiquidoPorMoeda").textContent = valorLiquidoPorMoeda.toFixed(2);
+      document.getElementById("lucroPorMoeda").textContent = lucroPorMoeda.toFixed(2);
+      document.getElementById("lucroTotalMoeda").textContent = lucroTotal.toFixed(2);
     }
   </script>
 </body>
